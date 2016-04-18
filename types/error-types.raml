@@ -1,0 +1,22 @@
+#%RAML 1.0 Library
+usage: |
+  Error Types
+
+#uses:
+#  common: !include common-types.raml
+
+types:
+
+  base-error: #per the sprint api error reporting spec
+    properties:
+      errorCode:
+        description: A unique reference, or key, for this error. The client may use this to provide a customized action.
+        type: string
+
+  alpha-letters-errors:
+    properties:
+      bam: string
+
+  beta-numbers-errors:
+    properties:
+      bam: string

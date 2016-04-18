@@ -1,0 +1,24 @@
+#%RAML 1.0
+---
+title: Shop eCommerce Services
+baseUri: https://api.com/shop/{version}
+version: v1
+mediaType: application/json
+protocols: HTTPS
+
+resourceTypes:
+  collection: !include resourceTypes/collection.raml
+
+
+uses:
+  alpha-types: !include types/alpha-types.raml
+  beta-types: !include types/beta-types.raml
+  error-types: !include types/error-types.raml
+  defaultResponses: !include libraries/responseBase.raml
+
+/alpha:
+  /letters:
+    type: { collection: { parentType: alpha } }
+/beta:
+  /numbers:
+    type: { collection: { parentType: beta } }

@@ -1,0 +1,75 @@
+#%RAML 1.0 ResourceType
+
+description: Collection of available <<resourcePathName>> in the cart.
+
+uses:
+  defaultResponses: !include ../libraries/responseBase.raml
+  error-types: !include ../types/error-types.raml
+
+get:
+  is: [defaultResponses.general: { parentType: <<parentType>> }]
+  description: retrieves the list of <<resourcePathName>>
+  headers:
+    If-None-Match:
+      type: string
+      description: the unique Etag provided by a potential previous GET
+  responses:
+    200:
+    304:
+    404:
+    500:
+    503:
+
+delete:
+  is: [defaultResponses.general: { parentType: <<parentType>> }]
+  description: Removes all <<resourcePathName>> in this collection
+  responses:
+    200:
+    204:
+      description: the delete was successful and there is nothing more to send
+    404:
+      description: the <<resourcePathName|!singularize>> was not found
+    500:
+      description: Unexpected server error.
+      body:
+        application/json:
+          example: {"message" : "NullPointer exception when evaluating ..."}
+    503:
+      description: Server down or unavailable
+      body:
+        application/json:
+          example: {"message" : "Services down"}
+
+post:
+  is: [defaultResponses.general: { parentType: cart }]
+  description: |
+    Create a new <<resourcePathName|!singularize>> to manage.
+  body:
+    application/json:
+  responses:
+    201:
+      description: the post was succcessful and the new id is returned
+      headers:
+        Location:
+          description: returns the Id of the resource created
+          example: <<resourcePath>>/123456
+    400:
+      description: Malformed post
+      body:
+        application/json:
+          example: {"message" : "invalid property"}
+    422:
+      description: The post was well-formed but has invalid data
+      body:
+        application/json:
+          example: {"message" : "invalid value"}
+    500:
+        description: Unexpected server error.
+        body:
+          application/json:
+            example: {"message" : "NullPointer exception when evaluating ..."}
+    503:
+        description: Server down or unavailable
+        body:
+          application/json:
+            example: {"message" : "Services down"}

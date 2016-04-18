@@ -1,0 +1,53 @@
+#%RAML 1.0 Trait
+
+usage: Default response codes
+description: Some requests require authentication.
+
+uses:
+  error-types: !include ../types/error-types.raml
+
+responses:
+  200?:
+    description: Test
+    headers:
+      Cache-Control:
+         example: "private, must-revalidate"
+      ETag:
+        type: string
+        description: a unique identifier such as a hash for the contents of the <<resourcePathName>> for <<parentType>>
+    body:
+      application/json:
+        type: <<parentType>>-types.<<resourcePathName>>
+  201?:
+    description: the post was succcessful and the new id is returned
+    headers:
+      Location:
+        description: returns the Id of the resource created
+        example: <<resourcePath>>/123456
+  204?:
+    description: the <<methodName>> was successful and there is nothing more to send
+  400?:
+    description: Malformed post
+    body:
+      application/json:
+        type: error-types.base-error
+  422?:
+    description: The post was well-formed but has invalid data
+    body:
+      application/json:
+        type: error-types.<<parentType>>-<<resourcePathName>>-errors
+  500?:
+      description: Unexpected server error.
+      body:
+        application/json:
+          type: error-types.base-error[]
+  503?:
+      description: Server down or unavailable
+      body:
+        application/json:
+          type: error-types.base-error[]
+  504?:
+      description: Service down or unavailable
+      body:
+        application/json:
+          type: error-types.base-error[]
