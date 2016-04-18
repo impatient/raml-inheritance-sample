@@ -26,50 +26,20 @@ delete:
   responses:
     200:
     204:
-      description: the delete was successful and there is nothing more to send
     404:
-      description: the <<resourcePathName|!singularize>> was not found
     500:
-      description: Unexpected server error.
-      body:
-        application/json:
-          example: {"message" : "NullPointer exception when evaluating ..."}
     503:
-      description: Server down or unavailable
-      body:
-        application/json:
-          example: {"message" : "Services down"}
+    504:  
 
 post:
-  is: [defaultResponses.general: { parentType: cart }]
+  is: [defaultResponses.general: { parentType: <<parentType>> }]
   description: |
     Create a new <<resourcePathName|!singularize>> to manage.
   body:
     application/json:
   responses:
     201:
-      description: the post was succcessful and the new id is returned
-      headers:
-        Location:
-          description: returns the Id of the resource created
-          example: <<resourcePath>>/123456
-    400:
-      description: Malformed post
-      body:
-        application/json:
-          example: {"message" : "invalid property"}
-    422:
-      description: The post was well-formed but has invalid data
-      body:
-        application/json:
-          example: {"message" : "invalid value"}
+    404:
     500:
-        description: Unexpected server error.
-        body:
-          application/json:
-            example: {"message" : "NullPointer exception when evaluating ..."}
     503:
-        description: Server down or unavailable
-        body:
-          application/json:
-            example: {"message" : "Services down"}
+    504:
